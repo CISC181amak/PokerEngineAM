@@ -7,6 +7,7 @@ public class Card {
 	
 	private RANK rank; // Integers 1-13 represent Ace to King
 	private SUIT suit; // Integers 1-4 represent Hearts, Spades, Clubs, Diamonds
+	private boolean wild = false;
 	
 	
 	 enum RANK { // Enumeration of the different ranks
@@ -22,10 +23,12 @@ public class Card {
 		TEN(10), 
 		JACK(11),
 		QUEEN(12), 
-		KING(13);
-		
+		KING(13),
+		JOKER(15);
+		 
 		
 		private int rank;
+		
 		private RANK(int rank){
 			this.rank = rank; 
 			};
@@ -47,7 +50,8 @@ public class Card {
 		HEART(1), 
 		SPADE(2), 
 		CLUB(3), 
-		DIAMOND(4);
+		DIAMOND(4),
+		JOKER(5);
 		
 		
 		private int suit;
@@ -67,13 +71,26 @@ public class Card {
 	
 	
 	
+	
+	
 	public Card() { // No arg constructor
 	}
 	
 	public Card(RANK rank, SUIT suit) { // Constructs a card with integers rank and suit
 		this.rank = rank;
 		this.suit = suit;
+		this.wild = false;
 	}
+	
+	public Card(RANK rank, SUIT suit, boolean wild) { // Constructs a card with integers rank and suit
+		this.rank = rank;
+		this.suit = suit;
+		this.wild = wild;
+	}
+	
+	
+	
+	
 
 	public RANK getRank() { // Getter for Rank
 		return rank;
@@ -82,6 +99,14 @@ public class Card {
 
 	public SUIT getSuit() { // Getter for Suit
 		return suit;
+	}
+	
+	public boolean getWild() {
+		return this.wild;
+	}
+	
+	public void setWild() {
+		this.wild = true;
 	}
 	
 	

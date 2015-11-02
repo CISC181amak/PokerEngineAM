@@ -11,9 +11,9 @@ public class Hand {
 
 	private ArrayList<Card> cardsInHand;
 	
-	public ArrayList<Card> CardsInHand() {
-		return this.cardsInHand;
-	}
+	public ArrayList<Card> CardsInHand()
+		{ return this.cardsInHand; }
+	
 	
 	
 	private int HandStrength;
@@ -21,6 +21,9 @@ public class Hand {
 	private int LowHand;
 	private int Kicker;
 	private boolean bScored = false;
+	
+	
+	
 	
 	
 	public void  AddCardToHand(Card c)
@@ -33,15 +36,15 @@ public class Hand {
 	}
 	
 	public Card  GetCardFromHand(int location)
-	{
-		return cardsInHand.get(location);
-	}
+	{ return cardsInHand.get(location); }
+	
+	
+	
+	
+	
 	
 	public Hand() // No arg constructor
-	{
-	}
-	
-	
+	{;}
 
 	public Hand(Deck deck) {
 		ArrayList<Card> HAND = new ArrayList<Card>();
@@ -54,8 +57,13 @@ public class Hand {
 	
 	
 	
-	public enum HANDTYPE { // Enumeration of different hands
-		ROYALFLUSH(10),
+	
+	// Enumeration for the different types of hands
+	
+	public enum HANDTYPE {
+		ROYALFLUSH(12),
+		FIVEKIND(11),
+		JOKERROYALFLUSH(10),
 		STRAIGHTFLUSH(9),
 		FOURKIND(8),
 		FULLHOUSE(7),
@@ -74,10 +82,14 @@ public class Hand {
 		public int getHANDTYPE() {
 			return index;
 		}
+		
 		public String getHANDTYPE(int index) { // Prints string representation of the different hands
 			return HANDTYPE.values()[index].toString();
 		}
 	}
+	
+	
+	
 	
 	
 	
@@ -102,6 +114,9 @@ public class Hand {
 	
 	
 	
+	
+	
+	
 	public static Hand EvaluateHand(ArrayList<Card> SeededHand) {
 		
 		Deck d = new Deck();
@@ -112,140 +127,297 @@ public class Hand {
 	}
 	
 	
-	
 	public void EvaluateHand() {
 		Collections.sort(cardsInHand, Card.CardRank);
 		
 		// Evaluate Royal Flush
 		
-		if(cardsInHand.get(0).getRank().getRank() == 14 &&
-				cardsInHand.get(1).getRank().getRank() == 13 &&
-				cardsInHand.get(2).getRank().getRank() == 12 &&
-				cardsInHand.get(3).getRank().getRank() == 11 &&
-				cardsInHand.get(4).getRank().getRank() == 10 &&
-				cardsInHand.get(0).getSuit().getSuit() == cardsInHand.get(1).getSuit().getSuit() &&
-				cardsInHand.get(1).getSuit().getSuit() == cardsInHand.get(2).getSuit().getSuit() &&
-				cardsInHand.get(2).getSuit().getSuit() == cardsInHand.get(3).getSuit().getSuit() &&
-				cardsInHand.get(3).getSuit().getSuit() == cardsInHand.get(4).getSuit().getSuit())
+		if(CardsInHand().get(0).getRank().getRank() == 14 &&
+				CardsInHand().get(1).getRank().getRank() == 13 &&
+				CardsInHand().get(2).getRank().getRank() == 12 &&
+				CardsInHand().get(3).getRank().getRank() == 11 &&
+				CardsInHand().get(4).getRank().getRank() == 10 &&
+				CardsInHand().get(0).getSuit().getSuit() == CardsInHand().get(1).getSuit().getSuit() &&
+				CardsInHand().get(1).getSuit().getSuit() == CardsInHand().get(2).getSuit().getSuit() &&
+				CardsInHand().get(2).getSuit().getSuit() == CardsInHand().get(3).getSuit().getSuit() &&
+				CardsInHand().get(3).getSuit().getSuit() == CardsInHand().get(4).getSuit().getSuit())
 		{ ScoreHand(HANDTYPE.ROYALFLUSH, 0, 0, 0); }
+		
+		// Evaluate Five of a Kind
+		
+		else if ((CardsInHand().get(0).getRank().getRank() == 15 ) && 
+				
+				(((CardsInHand().get(1).getRank().getRank()) == (CardsInHand().get(2).getRank().getRank())) &&
+				((CardsInHand().get(2).getRank().getRank()) == (CardsInHand().get(3).getRank().getRank())) &&
+				((CardsInHand().get(3).getRank().getRank()) == (CardsInHand().get(4).getRank().getRank()))))
+			
+		{ ScoreHand(
+				HANDTYPE.FIVEKIND,
+				CardsInHand().get(0).getRank().getRank(),
+				0,
+				0);				
+		}
+
+
+		// Evaluate Joker Royal Flush
+
+		else if(((CardsInHand().get(0).getRank().getRank() == 14) || (CardsInHand().get(0).getRank().getRank() == 15)) &&
+				((CardsInHand().get(1).getRank().getRank() == 13) || (CardsInHand().get(1).getRank().getRank() == 15)) &&
+				((CardsInHand().get(2).getRank().getRank() == 12) || (CardsInHand().get(2).getRank().getRank() == 15)) &&
+				((CardsInHand().get(3).getRank().getRank() == 11) || (CardsInHand().get(3).getRank().getRank() == 15)) &&
+				((CardsInHand().get(4).getRank().getRank() == 10) || (CardsInHand().get(4).getRank().getRank() == 15)) &&
+	
+				((CardsInHand().get(0).getSuit().getSuit() == CardsInHand().get(1).getSuit().getSuit()) 
+						|| ((CardsInHand().get(0).getSuit().getSuit()) == 5)
+						|| ((CardsInHand().get(1).getSuit().getSuit()) == 5)) &&
+				((CardsInHand().get(1).getSuit().getSuit() == CardsInHand().get(2).getSuit().getSuit()) 
+						|| ((CardsInHand().get(1).getSuit().getSuit()) == 5)
+						|| ((CardsInHand().get(2).getSuit().getSuit()) == 5)) &&
+				((CardsInHand().get(2).getSuit().getSuit() == CardsInHand().get(3).getSuit().getSuit()) 
+						|| ((CardsInHand().get(2).getSuit().getSuit()) == 5)
+						|| ((CardsInHand().get(3).getSuit().getSuit()) == 5)) &&
+				((CardsInHand().get(3).getSuit().getSuit() == CardsInHand().get(4).getSuit().getSuit()) 
+						|| ((CardsInHand().get(3).getSuit().getSuit()) == 5)
+						|| ((CardsInHand().get(4).getSuit().getSuit()) == 5)))
+		{ ScoreHand(HANDTYPE.JOKERROYALFLUSH, 0, 0, 0); }
+		
+	
+		
+		
+		
 		
 		// Evaluate Straight Flush
 		
-		else if (cardsInHand.get(1).getRank().getRank() == cardsInHand.get(0).getRank().getRank() - 1 &&
-				 cardsInHand.get(2).getRank().getRank() == cardsInHand.get(1).getRank().getRank() - 1 &&
-				 cardsInHand.get(3).getRank().getRank() == cardsInHand.get(2).getRank().getRank() - 1 &&
-				 cardsInHand.get(4).getRank().getRank() == cardsInHand.get(3).getRank().getRank() - 1 &&
-				 cardsInHand.get(0).getSuit().getSuit() == cardsInHand.get(1).getSuit().getSuit() &&
-				 cardsInHand.get(1).getSuit().getSuit() == cardsInHand.get(2).getSuit().getSuit() &&
-				 cardsInHand.get(2).getSuit().getSuit() == cardsInHand.get(3).getSuit().getSuit() &&
-				 cardsInHand.get(3).getSuit().getSuit() == cardsInHand.get(4).getSuit().getSuit())
-		{ ScoreHand(HANDTYPE.STRAIGHTFLUSH, cardsInHand.get(0).getRank().getRank(), 0, 0); }
+		else if (CardsInHand().get(1).getRank().getRank() == CardsInHand().get(0).getRank().getRank() - 1 &&
+				 CardsInHand().get(2).getRank().getRank() == CardsInHand().get(1).getRank().getRank() - 1 &&
+				 CardsInHand().get(3).getRank().getRank() == CardsInHand().get(2).getRank().getRank() - 1 &&
+				 CardsInHand().get(4).getRank().getRank() == CardsInHand().get(3).getRank().getRank() - 1 &&
+				 CardsInHand().get(0).getSuit().getSuit() == CardsInHand().get(1).getSuit().getSuit() &&
+				 CardsInHand().get(1).getSuit().getSuit() == CardsInHand().get(2).getSuit().getSuit() &&
+				 CardsInHand().get(2).getSuit().getSuit() == CardsInHand().get(3).getSuit().getSuit() &&
+				 CardsInHand().get(3).getSuit().getSuit() == CardsInHand().get(4).getSuit().getSuit())
+		{ ScoreHand(
+				HANDTYPE.STRAIGHTFLUSH, 
+				CardsInHand().get(0).getRank().getRank(), 
+				0, 
+				0);
+		}
+		
+				
+		
+		
+		
+		// Four of a Kind
+		
+		else if ((CardsInHand().get(0).getRank().getRank() == CardsInHand().get(1).getRank().getRank()) &&
+				(CardsInHand().get(1).getRank().getRank() == CardsInHand().get(2).getRank().getRank()) &&
+				(CardsInHand().get(2).getRank().getRank() == CardsInHand().get(3).getRank().getRank()))
+		{ ScoreHand(
+				HANDTYPE.FOURKIND, 
+				CardsInHand().get(0).getRank().getRank(), 
+				0, 
+				CardsInHand().get(4).getRank().getRank());
+		}
+		
+		else if ((CardsInHand().get(1).getRank().getRank() == CardsInHand().get(2).getRank().getRank()) &&
+				(CardsInHand().get(2).getRank().getRank() == CardsInHand().get(3).getRank().getRank()) &&
+				(CardsInHand().get(3).getRank().getRank() == CardsInHand().get(4).getRank().getRank()))
+		
+		{ ScoreHand(
+				HANDTYPE.FOURKIND, 
+				CardsInHand().get(1).getRank().getRank(), 
+				0, 
+				CardsInHand().get(0).getRank().getRank());
+		}
+		
 		
 		
 		// Full House
 		
-		else if ( FullHouse() ) { ScoreHand(HANDTYPE.FULLHOUSE, cardsInHand.get(0).getRank().getRank(), cardsInHand.get(4).getRank().getRank(), 0); }
-				
+		else if ((CardsInHand().get(0).getRank().getRank() == (CardsInHand().get(1).getRank().getRank()))
+				&& (CardsInHand().get(2).getRank().getRank() == CardsInHand().get(3).getRank().getRank()) 
+				&& (CardsInHand().get(3).getRank().getRank() == CardsInHand().get(4).getRank().getRank()))
+			
+		{ ScoreHand(
+				HANDTYPE.FULLHOUSE, 
+				CardsInHand().get(2).getRank().getRank(), 
+				CardsInHand().get(0).getRank().getRank(), 
+				0);
+		}
+		else if ((CardsInHand().get(3).getRank().getRank() == (CardsInHand().get(4).getRank().getRank())
+			&& (CardsInHand().get(0).getRank().getRank() == CardsInHand().get(1).getRank().getRank()) 
+			&& (CardsInHand().get(1).getRank().getRank() == CardsInHand().get(2).getRank().getRank())))
+			
+		{ ScoreHand(
+				HANDTYPE.FULLHOUSE, 
+				CardsInHand().get(0).getRank().getRank(), 
+				CardsInHand().get(3).getRank().getRank(), 
+				0);
+		}
 		
-		// N of a Kind
 		
-		else if (NofAKind() == "Four") { ScoreHand(HANDTYPE.FOURKIND, cardsInHand.get(0).getRank().getRank(), 0, cardsInHand.get(4).getRank().getRank()); }
-		
-		else if (NofAKind() == "Three") { ScoreHand(HANDTYPE.THREEKIND, cardsInHand.get(0).getRank().getRank(), 0, cardsInHand.get(4).getRank().getRank()); }
 		
 		
 		
 		
 		// Evaluate Flush
 		
-		else if (cardsInHand.get(0).getSuit().getSuit() == cardsInHand.get(1).getSuit().getSuit() &&
-				cardsInHand.get(1).getSuit().getSuit() == cardsInHand.get(2).getSuit().getSuit() &&
-				cardsInHand.get(2).getSuit().getSuit() == cardsInHand.get(3).getSuit().getSuit() &&
-				cardsInHand.get(3).getSuit().getSuit() == cardsInHand.get(4).getSuit().getSuit())
-		{ ScoreHand(HANDTYPE.FLUSH, cardsInHand.get(0).getRank().getRank(), 0, 0); }
+		else if (CardsInHand().get(0).getSuit().getSuit() == CardsInHand().get(1).getSuit().getSuit() &&
+				 CardsInHand().get(1).getSuit().getSuit() == CardsInHand().get(2).getSuit().getSuit() &&
+				 CardsInHand().get(2).getSuit().getSuit() == CardsInHand().get(3).getSuit().getSuit() &&
+				 CardsInHand().get(3).getSuit().getSuit() == CardsInHand().get(4).getSuit().getSuit())
+			
+		{ ScoreHand(
+				HANDTYPE.FLUSH, 
+				CardsInHand().get(0).getRank().getRank(), 
+				0, 
+				0);
+		}
+		
+		
+		
+		
 		
 		
 		// Evaluate Straight
 		
-		else if (cardsInHand.get(1).getRank().getRank() == cardsInHand.get(0).getRank().getRank() - 1 &&
-				 cardsInHand.get(2).getRank().getRank() == cardsInHand.get(1).getRank().getRank() - 1 &&
-				 cardsInHand.get(3).getRank().getRank() == cardsInHand.get(2).getRank().getRank() - 1 &&
-				 cardsInHand.get(4).getRank().getRank() == cardsInHand.get(3).getRank().getRank() - 1)
-		{ ScoreHand(HANDTYPE.STRAIGHT, cardsInHand.get(0).getRank().getRank(), 0, 0); }
+		else if (CardsInHand().get(1).getRank().getRank() == CardsInHand().get(0).getRank().getRank() - 1 &&
+				 CardsInHand().get(2).getRank().getRank() == CardsInHand().get(1).getRank().getRank() - 1 &&
+				 CardsInHand().get(3).getRank().getRank() == CardsInHand().get(2).getRank().getRank() - 1 &&
+				 CardsInHand().get(4).getRank().getRank() == CardsInHand().get(3).getRank().getRank() - 1)
 		
-		else if (Pair() == 2) { ScoreHand(HANDTYPE.TWOPAIR, cardsInHand.get(1).getRank().getRank(), cardsInHand.get(3).getRank().getRank(), 0); }
+		{ ScoreHand(
+				HANDTYPE.STRAIGHT, 
+				CardsInHand().get(0).getRank().getRank(), 
+				0, 
+				0);
+		}
 		
-		else if (Pair() == 1) { ScoreHand(HANDTYPE.PAIR, cardsInHand.get(0).getRank().getRank(), 0, cardsInHand.get(4).getRank().getRank()); }
 		
-		else ScoreHand(HANDTYPE.HIGHCARD, cardsInHand.get(0).getRank().getRank(), 0, cardsInHand.get(1).getRank().getRank());;
+		
+		
+		
+		
+		// Three of a Kind
+		
+		else if ((CardsInHand().get(0).getRank().getRank() == CardsInHand().get(1).getRank().getRank()) &&
+				(CardsInHand().get(1).getRank().getRank() == CardsInHand().get(2).getRank().getRank()))
+		{ ScoreHand(
+				HANDTYPE.THREEKIND, 
+				CardsInHand().get(0).getRank().getRank(), 
+				0, 
+				CardsInHand().get(3).getRank().getRank());
+		}
+		
+		else if ((CardsInHand().get(1).getRank().getRank() == CardsInHand().get(2).getRank().getRank()) &&
+				(CardsInHand().get(2).getRank().getRank() == CardsInHand().get(3).getRank().getRank()))
+		{ ScoreHand(
+				HANDTYPE.THREEKIND, 
+				CardsInHand().get(1).getRank().getRank(), 
+				0, 
+				CardsInHand().get(0).getRank().getRank());
+		}
+		
+		else if ((CardsInHand().get(2).getRank().getRank() == CardsInHand().get(3).getRank().getRank()) &&
+				(CardsInHand().get(3).getRank().getRank() == CardsInHand().get(4).getRank().getRank()))
+		{ ScoreHand(
+				HANDTYPE.THREEKIND, 
+				CardsInHand().get(2).getRank().getRank(), 
+				0, 
+				CardsInHand().get(0).getRank().getRank());
+		}
+		
+		
+		
+		
+		
+		
+		// Evaluate Two Pair
+		
+		else if (
+				 (CardsInHand().get(0).getRank().getRank() == CardsInHand().get(1).getRank().getRank() &&
+				 (CardsInHand().get(2).getRank().getRank() == CardsInHand().get(3).getRank().getRank()))) 
+			
+				 { ScoreHand(
+						 HANDTYPE.TWOPAIR,
+						 CardsInHand().get(0).getRank().getRank(),
+						 CardsInHand().get(2).getRank().getRank(),
+						 CardsInHand().get(4).getRank().getRank()); 
+				 }
+		
+		else if (
+				(CardsInHand().get(0).getRank().getRank() == CardsInHand().get(1).getRank().getRank() &&
+			    (CardsInHand().get(3).getRank().getRank() == CardsInHand().get(4).getRank().getRank()))) 
+			
+				{ ScoreHand(
+						HANDTYPE.TWOPAIR,
+						CardsInHand().get(0).getRank().getRank(),
+						CardsInHand().get(3).getRank().getRank(),
+						CardsInHand().get(2).getRank().getRank()); 
+				}
+		
+		else if (
+			    (CardsInHand().get(1).getRank().getRank() == CardsInHand().get(2).getRank().getRank() &&
+			    (CardsInHand().get(3).getRank().getRank() == CardsInHand().get(4).getRank().getRank())))
+			
+				{ ScoreHand(
+						HANDTYPE.TWOPAIR,
+						CardsInHand().get(1).getRank().getRank(),
+						CardsInHand().get(3).getRank().getRank(),
+						CardsInHand().get(0).getRank().getRank()); 
+				}
+		
+		
+		
+		
+		
+		// One Pair
+		
+		else if (CardsInHand().get(0).getRank().getRank() == CardsInHand().get(1).getRank().getRank())
+			{ ScoreHand(
+					HANDTYPE.PAIR,
+					CardsInHand().get(0).getRank().getRank(),
+					0,
+					CardsInHand().get(2).getRank().getRank()); 
+			}
+		else if (CardsInHand().get(1).getRank().getRank() == CardsInHand().get(2).getRank().getRank())
+			{ ScoreHand(
+					HANDTYPE.PAIR,
+					CardsInHand().get(1).getRank().getRank(),
+					0,
+					CardsInHand().get(0).getRank().getRank()); 
+			}
+		else if (CardsInHand().get(2).getRank().getRank() == CardsInHand().get(3).getRank().getRank())
+			{ ScoreHand(
+					HANDTYPE.PAIR,
+					CardsInHand().get(2).getRank().getRank(),
+					0,
+					CardsInHand().get(0).getRank().getRank()); 
+			}
+		else if (CardsInHand().get(3).getRank().getRank() == CardsInHand().get(4).getRank().getRank())
+			{ ScoreHand(
+					HANDTYPE.PAIR,
+					CardsInHand().get(3).getRank().getRank(),
+					0,
+					CardsInHand().get(0).getRank().getRank()); 
+			}
+		
+		
+		
+		
+		// High Card
+		
+		else ScoreHand(
+				HANDTYPE.HIGHCARD, 
+				CardsInHand().get(0).getRank().getRank(), 
+				0, 
+				CardsInHand().get(1).getRank().getRank());
 		
 	}
 	
 	
+		
 	
-		
-		
-		
-		// Helpers for Full House, Pairs, # of a Kind
-		
-		public boolean FullHouse() {
-			if ((CardsInHand().get(0).getRank().getRank() == (CardsInHand().get(1).getRank().getRank()))
-					&& (CardsInHand().get(2).getRank().getRank() == CardsInHand().get(3).getRank().getRank()) 
-					&& (CardsInHand().get(3).getRank().getRank() == CardsInHand().get(4).getRank().getRank())
-				|| 
-				(CardsInHand().get(3).getRank().getRank() == (CardsInHand().get(4).getRank().getRank())
-				&& (CardsInHand().get(0).getRank().getRank() == CardsInHand().get(1).getRank().getRank()) 
-				&& (CardsInHand().get(1).getRank().getRank() == CardsInHand().get(2).getRank().getRank())))
-				{ return true; }
-			else return false;
-		}	
-			
-		
-		public String NofAKind() {
-			int count = 0;
-			for (int i = 0; i<4; i++) {
-				if (CardsInHand().get(i).getRank().getRank() == CardsInHand().get(i+1).getRank().getRank()) {
-					count += 1;
-				} else count += 0;
-			}
-			if (count == 4) { return "Four"; }
-			else if (count == 3) { return "Three"; }
-			else return "";
-		
-		}
-		
-		public int Pair() {
-			int pair = 0;
-			if ( (CardsInHand().get(0).getRank().getRank() == CardsInHand().get(1).getRank().getRank()) ||
-					(CardsInHand().get(0).getRank().getRank() != CardsInHand().get(2).getRank().getRank()) ||
-					(CardsInHand().get(0).getRank().getRank() != CardsInHand().get(3).getRank().getRank()) ||
-					(CardsInHand().get(0).getRank().getRank() != CardsInHand().get(4).getRank().getRank()) )
-			{ pair +=1; }
-			else pair += 0;
-			
-			if ( (CardsInHand().get(1).getRank().getRank() == CardsInHand().get(2).getRank().getRank()) ||
-					(CardsInHand().get(1).getRank().getRank() != CardsInHand().get(0).getRank().getRank()) ||
-					(CardsInHand().get(1).getRank().getRank() != CardsInHand().get(3).getRank().getRank()) ||
-					(CardsInHand().get(1).getRank().getRank() != CardsInHand().get(4).getRank().getRank()) )
-			{ pair +=1; }
-			else pair += 0;
-			
-			if ( (CardsInHand().get(2).getRank().getRank() == CardsInHand().get(3).getRank().getRank()) ||
-					(CardsInHand().get(2).getRank().getRank() != CardsInHand().get(0).getRank().getRank()) ||
-					(CardsInHand().get(2).getRank().getRank() != CardsInHand().get(1).getRank().getRank()) ||
-					(CardsInHand().get(2).getRank().getRank() != CardsInHand().get(4).getRank().getRank()) )
-			{ pair +=1; }
-			else pair += 0;
-			
-			if ( (CardsInHand().get(3).getRank().getRank() == CardsInHand().get(4).getRank().getRank()) ||
-					(CardsInHand().get(3).getRank().getRank() != CardsInHand().get(0).getRank().getRank()) ||
-					(CardsInHand().get(3).getRank().getRank() != CardsInHand().get(1).getRank().getRank()) ||
-					(CardsInHand().get(3).getRank().getRank() != CardsInHand().get(2).getRank().getRank()) )
-			{ pair +=1; }
-			else { pair += 0; }
-			
-			return pair;
-		}
 			
 		
 		
@@ -257,6 +429,8 @@ public class Hand {
 			this.bScored = true;
 
 		}
+		
+		
 
 		/**
 		 * Custom sort to figure the best hand in an array of hands
